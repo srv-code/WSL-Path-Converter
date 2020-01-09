@@ -1,14 +1,14 @@
-package windows.wsl.util;
+package windows.wsl.fs;
 
 
-public class ConvPath {
+public class WSLPathConverter {
     private final static float APP_VERSION = 2.00f;
-    private final static String usageString = "Usage: [<option>] <file_path_1> [<file_path_2> [<file_path_3>...]]";
+    private final static String usageString = "convpath [<option>] <file_path_1> [<file_path_2> [<file_path_3>...]]";
 
     public static void main(final String[] args) {
         if(args.length == 0) {
-            System.err.println(usageString);
-            System.exit(1);
+            System.err.println("Usage: " + usageString);
+            System.exit(StandardExitCodes.ERROR);
         }
         
         boolean optionProvided = false; /* default value set */
@@ -18,7 +18,7 @@ public class ConvPath {
             case "-h":
             case "--help":
                 showHelp();
-                System.exit(0);
+                System.exit(StandardExitCodes.NORMAL);
             
             case "-l": 
             case "--wsl":
@@ -34,8 +34,8 @@ public class ConvPath {
         }
 
         if(optionProvided && args.length==1) {
-            System.err.println(usageString);
-            System.exit(1);
+            System.err.println("Usage: " + usageString);
+            System.exit(StandardExitCodes.ERROR);
         }
             
         for(int i = optionProvided ? 1 : 0, len=args.length; i<len; i++)
@@ -67,11 +67,16 @@ public class ConvPath {
     }
 
     private static void showHelp() {
+        System.out.println("WSL Path Converter");
         System.out.println("Purpose: For interchanging file path formats to and from WSL");
-        System.out.printf("Version: %.2f \n", APP_VERSION);
-        System.out.println(usageString);
-        System.out.println("  -h, --help : Shows this help message and exit");
-        System.out.println("  -l, --wsl  : Convert to WSL path (default)");
-        System.out.println("  -w, --win  : Convert to Windows path");
+        System.out.printf ("Version: %.2f\n", APP_VERSION);
+        System.out.println("Usage:   " + usageString);
+        System.out.println();
+        System.out.println("Options:");
+        System.out.println("    --help, -h    Shows this help message and exit");
+        System.out.println("    --wsl,  -l    Convert to WSL path (default)");
+        System.out.println("    --win,  -w    Convert to Windows path");
+        System.out.println();
+        StandardExitCodes.showMessage();
     }
 }
