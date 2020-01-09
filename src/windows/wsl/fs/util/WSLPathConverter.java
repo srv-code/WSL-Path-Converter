@@ -1,4 +1,4 @@
-package windows.wsl.fs;
+package windows.wsl.fs.util;
 
 
 public class WSLPathConverter {
